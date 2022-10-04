@@ -27,7 +27,7 @@ categoriseFeatures<-function(names)
       featurecategory[i] = "Texture"
     }
     
-    if(grepl("Den",names[i]) == TRUE && grepl("Cooc",names[i]) == FALSE)
+    if(grepl("den",names[i]) == TRUE && grepl("Cooc",names[i]) == FALSE)
     {
       featurecategory[i] = "Density"
     }
@@ -64,7 +64,7 @@ categoriseDataFeatures<-function(dataset)
       featurecategory[i] = "Texture"
     }
     
-    if(grepl("Den",colnames(dataset)[i]) == TRUE && grepl("Cooc",colnames(dataset)[i]) == FALSE)
+    if(grepl("den",colnames(dataset)[i]) == TRUE && grepl("Cooc",colnames(dataset)[i]) == FALSE)
     {
       featurecategory[i] = "Density"
     }
@@ -373,11 +373,11 @@ ui<-fluidPage(theme = shinytheme("spacelab"),
                                                                      tabPanel("Original variables",
                                                                               
                                                                               conditionalPanel(br(),fluidRow(column(plotlyOutput("comparisonPlot1", height = 500, width = 400), plotlyOutput("comparisonPlot4", height = 500, width = 400), width = 4),
-                                                                                                        column(plotlyOutput("comparisonPlot2", height = 500, width = 400), plotlyOutput("comparisonPlot5", height = 500, width = 400), width = 4),
-                                                                                                        column(plotlyOutput("comparisonPlot3", height = 500, width = 400), plotlyOutput("comparisonPlot6", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 0"),
+                                                                                                             column(plotlyOutput("comparisonPlot2", height = 500, width = 400), plotlyOutput("comparisonPlot5", height = 500, width = 400), width = 4),
+                                                                                                             column(plotlyOutput("comparisonPlot3", height = 500, width = 400), plotlyOutput("comparisonPlot6", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 0"),
                                                                               conditionalPanel(br(),fluidRow(column(plotlyOutput("comparisonPlot1_summary", height = 500, width = 400), plotlyOutput("comparisonPlot4_summary", height = 500, width = 400), width = 4),
-                                                                                                        column(plotlyOutput("comparisonPlot2_summary", height = 500, width = 400), plotlyOutput("comparisonPlot5_summary", height = 500, width = 400), width = 4),
-                                                                                                        column(plotlyOutput("comparisonPlot3_summary", height = 500, width = 400), plotlyOutput("comparisonPlot6_summary", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 1")),
+                                                                                                             column(plotlyOutput("comparisonPlot2_summary", height = 500, width = 400), plotlyOutput("comparisonPlot5_summary", height = 500, width = 400), width = 4),
+                                                                                                             column(plotlyOutput("comparisonPlot3_summary", height = 500, width = 400), plotlyOutput("comparisonPlot6_summary", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 1")),
                                                                      tabPanel("Wavelet transforms",
                                                                               sliderInput("wavelevel1",
                                                                                           "Wavelet level:",
@@ -388,20 +388,20 @@ ui<-fluidPage(theme = shinytheme("spacelab"),
                                                                                           width = "25%"),
                                                                               
                                                                               conditionalPanel(br(),
-                                                                                fluidRow(column(plotlyOutput("comparisonPlot4_l", height = 500, width = 400), width = 4),
-                                                                                         column(plotlyOutput("comparisonPlot5_l", height = 500, width = 400), width = 4),
-                                                                                         column(plotlyOutput("comparisonPlot6_l", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 0"),
+                                                                                               fluidRow(column(plotlyOutput("comparisonPlot4_l", height = 500, width = 400), width = 4),
+                                                                                                        column(plotlyOutput("comparisonPlot5_l", height = 500, width = 400), width = 4),
+                                                                                                        column(plotlyOutput("comparisonPlot6_l", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 0"),
                                                                               
                                                                               conditionalPanel(br(),
-                                                                                fluidRow(column(plotlyOutput("comparisonPlot4_l_summary", height = 500, width = 400), width = 4),
-                                                                                         column(plotlyOutput("comparisonPlot5_l_summary", height = 500, width = 400), width = 4),
-                                                                                         column(plotlyOutput("comparisonPlot6_l_summary", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 1")
+                                                                                               fluidRow(column(plotlyOutput("comparisonPlot4_l_summary", height = 500, width = 400), width = 4),
+                                                                                                        column(plotlyOutput("comparisonPlot5_l_summary", height = 500, width = 400), width = 4),
+                                                                                                        column(plotlyOutput("comparisonPlot6_l_summary", height = 500, width = 400), width = 4)), condition = "input.showsumstats1 == 1")
                                                                      ))),
                                                 tabPanel("Display separation scores",
                                                          fluidRow(column(
-                                                                         helpText("Click on the download button to download the current table of separation scores"),
-                                                                         downloadButton("downloadSepScores", "Download table of separation scores"), withSpinner(tableOutput("sepscores"), type = 6), width = 4),
-                                                                  column(withSpinner(plotlyOutput("sepscoreBarPlot"), type = 6), width = 8))),
+                                                           helpText("Click on the download button to download the current table of separation scores"),
+                                                           downloadButton("downloadSepScores", "Download table of separation scores"), withSpinner(tableOutput("sepscores"), type = 6), width = 4),
+                                                           column(withSpinner(plotlyOutput("sepscoreBarPlot"), type = 6), width = 8))),
                                                 tabPanel("Principal Component Analysis",
                                                          br(),
                                                          fluidRow(column(withSpinner(plotlyOutput("PCAscores", width = 500, height = 500), type = 6), width = 6),
@@ -494,15 +494,13 @@ server<-function(input,output,session){
       cellID[[j]] = data.frame(unique(timeseriesvars[,2]))[j,1]
     }
     
-    View(cellID)
-    
-  for(i in 1:num)
-  {
-    if(cellID[[i]] == input$cellID)
+    for(i in 1:num)
     {
-      break
+      if(cellID[[i]] == input$cellID)
+      {
+        break
+      }
     }
-  }
     i
   })
   
@@ -1041,13 +1039,19 @@ server<-function(input,output,session){
   
   output$comparisonPlot1<-renderPlotly({
     req(separationscores())
+    req(input$cell1name)
+    req(input$cell2name)
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_mean",sep = "")) == TRUE,3], 2)
     
-    fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_mean", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
+    
+    fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_mean", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = groups, colors = c("red", "blue"))%>%
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_mean", sep = "")))
     fig
     
@@ -1057,11 +1061,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_mean",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_mean", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_mean", sep = "")))
     fig
     
@@ -1071,11 +1078,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_std",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_std", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_std", sep = "")))
     fig
     
@@ -1085,11 +1095,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_std",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_std", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_std", sep = "")))
     fig
     
@@ -1099,11 +1112,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_skew",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_skew", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_skew", sep = "")))
     fig
     
@@ -1113,11 +1129,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_skew",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_skew", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_skew", sep = "")))
     fig
     
@@ -1128,11 +1147,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_asc",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_asc", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_asc", sep = "")))
     fig
     
@@ -1142,11 +1164,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_asc",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_asc", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_asc", sep = "")))
     fig
     
@@ -1158,14 +1183,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_asc",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "asc", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1177,14 +1205,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_asc",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "asc", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1194,11 +1225,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_des",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_des", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_des", sep = "")))
     fig
     
@@ -1208,11 +1242,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_des",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_des", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_des", sep = "")))
     fig
     
@@ -1224,14 +1261,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_des",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "des", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1243,14 +1283,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_des",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "des", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1260,11 +1303,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_max",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_max", sep = "")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_max", sep = "")))
     fig
     
@@ -1274,11 +1320,14 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_max",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,"_max", sep = "")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots,"_max", sep = "")))
     fig
     
@@ -1290,14 +1339,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_max",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "max", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", boxpoints = "all", name = allData()[,1], text = as.character((allData()[,2])), hoverinfo = 'text', pointpos = 0, fillcolor = "white", color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1309,14 +1361,17 @@ server<-function(input,output,session){
     req(separationscores())
     req(allData())
     req(input$variableNameforPlots)
-    groups<-factor(allData()[,1], levels = unique(allData()[,1]))
+    groups<-factor(allData()[,1], levels = c(input$cell1name, input$cell2name))
     sepscore<-round(separationscores()[(separationscores()[,2] == paste(input$variableNameforPlots,"_max",sep = "")) == TRUE,3],2)
+    xform <- list(categoryorder = "array",
+                  categoryarray = groups)
     
     name<-paste("l", input$wavelevel1, sep="")
     name<-paste(name, "max", sep = "_")
     
     fig<-plot_ly(y = allData()[,paste(input$variableNameforPlots,name, sep = "_")], type = "box", name = allData()[,1], text = as.character((allData()[,2])), pointpos = 0, color = allData()[,1], colors = c("red", "blue"))%>%
-      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "), 
+      layout(showlegend = FALSE, title = paste("Separation score:",sepscore,sep=" "),
+             xaxis = xform,
              yaxis = list(title = paste(input$variableNameforPlots, name, sep = "_"), sep = ""))
     fig
     
@@ -1334,11 +1389,11 @@ server<-function(input,output,session){
     
     fig<-plot_ly(data.frame(sepscores), y = ~sepscores[,3], x = 1:length(sepscores[,1]), color = ~sepscores[,4], colors = c("black", "violetred1", "turquoise4", "orchid", "skyblue"), text = sepscores[,2], hoverinfo = text)%>%
       layout( 
-             yaxis = list(title = 'Separation score'))
+        yaxis = list(title = 'Separation score'))
     
     fig
     
-    })
+  })
   
   output$downloadSepScores<-downloadHandler(
     filename = function(){
@@ -1418,7 +1473,6 @@ server<-function(input,output,session){
                        }
                      }
                    }
-                   print(c(correct, i))
                    ErrRate[i] = 1-(correct/(dim(balancedTraining1())[1]))
                  }
     )
@@ -1485,7 +1539,7 @@ server<-function(input,output,session){
     forumap<-data[,separationscores[,2]]
     
     umap<-umap::umap(scale(forumap))
-    fig<-plot_ly(data = data.frame(umap$layout), x = ~umap$layout[,1], y = ~umap$layout[,2], text = allData()[,2], hoverinfo = 'text', color = as.factor(allData()[,1]), colors = c("red", "blue"))%>%
+    fig<-plot_ly(data = data.frame(umap$layout), x = ~umap$layout[,1], y = ~umap$layout[,2], text = allData()[,2], hoverinfo = 'text', color = factor(allData()[,1], levels = c(input$cell1name, input$cell2name)), colors = c("red", "blue"))%>%
       layout(title = 'UMAP', xaxis = list(title = 'UMAP1'), 
              yaxis = list(title = 'UMAP2'))
     fig
@@ -1501,7 +1555,7 @@ server<-function(input,output,session){
     fortsne<-data[,separationscores[,2]]
     
     tsne<-Rtsne::Rtsne(scale(fortsne), perplexity = 30, check_duplicates = FALSE)
-    fig<-plot_ly(data = data.frame(tsne$Y), x = ~tsne$Y[,1], y = ~tsne$Y[,2], text = allData()[,2], hoverinfo = 'text', color = as.factor(allData()[,1]), colors = c("red", "blue"))%>%
+    fig<-plot_ly(data = data.frame(tsne$Y), x = ~tsne$Y[,1], y = ~tsne$Y[,2], text = allData()[,2], hoverinfo = 'text', color = factor(allData()[,1], levels = c(input$cell1name, input$cell2name)), colors = c("red", "blue"))%>%
       layout(title = 't-SNE', xaxis = list(title = 't-SNE1'), 
              yaxis = list(title = 't-SNE2'))
     fig
@@ -1633,7 +1687,7 @@ server<-function(input,output,session){
     plot(density((1-group1[,3])*100), col = "red", lwd = 2, ylim = c(0,max), xlab = "Classifier votes for correct class (%)", main = "Summary of ensemble classification results")
     lines(density((group2[,3]*100)), col = "blue", lwd = 2)
     legend("topleft", legend = unique(results[,1]), fill = c("red", "blue"))
-    })
+  })
   
   output$classificationresultsNoLabels<-renderTable({
     req(classificationresults())
