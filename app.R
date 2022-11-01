@@ -271,6 +271,8 @@ cellPopulationClassification<-function(TrainingSet, TestSet, TrainingLabels)
   return(classificationvotes)
 }
 
+remotes::::install_github('uoy-research/CellPhe')
+library(CellPhe)
 library(shiny)
 library(shinythemes)
 library(umap)
